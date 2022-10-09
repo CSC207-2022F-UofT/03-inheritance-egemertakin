@@ -13,6 +13,11 @@ public abstract class Bag {
      *       - an int named capacity
      *       - an array of Strings named contents
      */
+    private String color;
+    private int numberOfContents;
+    private int capacity;
+    private String[] contents;
+
 
 
 
@@ -26,6 +31,12 @@ public abstract class Bag {
      * be empty (e.g. numberOfContents is 0 and an empty String array for
      * its contents.)
      */
+    public Bag(String color, int capacity){
+        this.color = color;
+        this.capacity = capacity;
+        this.numberOfContents = 0;
+        this.contents = new String[]{};
+    }
 
 
 
@@ -38,18 +49,26 @@ public abstract class Bag {
      *           - getCapacity
      */
 
+    public String getColor() {
+        return this.color;
+    }
 
+    public int getNumberOfContents() {
+        return this.numberOfContents;
+    }
 
+    public int getCapacity() {
+        return this.capacity;
+    }
 
     /*
      * TODO: Create a setter function called setColor which sets the
      *       color of this bag to the given color.
      */
 
-
-
-
-
+    public void setColor(String color) {
+        this.color = color;
+    }
     /*
      * TODO: Create a method called addItem that takes in a String
      *       representing an item in the Bag.
@@ -60,6 +79,24 @@ public abstract class Bag {
      *       This method should return true if the item was added
      *       and false otherwise.
      */
+    public boolean addItem(String item){
+        if (this.numberOfContents < this.capacity) {
+            String[] previous_bag = this.contents;
+            this.numberOfContents += 1;
+            this.contents = new String[this.numberOfContents];
+
+            for (int i = 0; i < previous_bag.length; i++) {
+                this.contents[i] = previous_bag[i];
+            }
+
+            this.contents[this.numberOfContents - 1] = item;
+
+            return true;
+        }
+        return false;
+    }
+
+
 
 
 
@@ -75,6 +112,23 @@ public abstract class Bag {
      *
      * @return
      */
+    public Object popItem(){
+        if (this.numberOfContents == 0) {
+            return null;
+        }
+        else {
+            String[] prev_pop = this.contents;
+            String last_item = prev_pop[this.numberOfContents - 1];
+            this.numberOfContents -= 1;
+            this.contents = new String[this.numberOfContents];
+
+            for (int i = 0; i < prev_pop.length - 1; i++) {
+                this.contents[i] = prev_pop[i];
+            }
+
+            return last_item;
+        }
+    }
 
 
 
@@ -87,7 +141,14 @@ public abstract class Bag {
      */
     public void increaseCapacity(int n) {
         // TODO: Implement this method.
+        String[] prev_inc = this.contents;
+        String[] increased_array = new String[this.capacity + n];
 
+        for (int i = 0; i < this.numberOfContents; i++) {
+            increased_array[i] = prev_inc[i];
+        }
+        this.contents  = increased_array;
+        this.capacity += n;
     }
 
     /**
